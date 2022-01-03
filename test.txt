@@ -1,0 +1,20 @@
+INT a=15; 
+INT b=20;
+*-Ceci est  
+   un commentaire-*
+OUTPUT(a+b);  
+INT i=15; 
+TAB TABLEAU=[];
+STRUCT STRUCTURE ={
+    INT A=124;
+    STRING chaine="hello word"; 
+    BOOLEAN bool=TRUE;
+    DOUBLE double=12.36;
+};
+**Une boucle FOR
+FOR(i,10,25,INCREMENT,10)
+
+BeginFOR
+EndFOR
+CONSTANT c_15=13;
+FUNCTION f_calculer(INT a, INT b);
