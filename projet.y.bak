@@ -40,7 +40,7 @@ declaration_double:
 	| DOUBLE_DECLARATION IDENTIFIANT AFFECT DOUBLE DEL
 ;
 declaration_string:
-	| STRING_DECLARATION IDENTIFIANT AFFECT STRING DEL
+	| STRING_DECLARATION{printf("1");} IDENTIFIANT{printf("2");} AFFECT{printf("3");} STRING{printf("4");} DEL{printf("5");}
 ;
 declaration_char:
 	| CHAR_DECLARATION IDENTIFIANT AFFECT CHAR DEL

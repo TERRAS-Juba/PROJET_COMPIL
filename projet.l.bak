@@ -15,7 +15,7 @@ COMMENTAIRE_LIGNE [*][*]([a-zA-Z]|[ ]|[*]|[0-9])*
 COMMENTAIRE_PLUSIEURSC_LIGNE [*][-]([^-]|[-])*[-][*]
 constante [c_].([a-zA-Z]|[0-9])*
 fonction [f_].(([a-zA-Z]|[0-9])*)
-identifiant ([a-zA-Z]|[0-9]|[_])*
+identifiant ([^"])*
 ERREUR [^(\n\s\r)]
 
 %%
