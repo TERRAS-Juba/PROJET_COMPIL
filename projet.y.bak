@@ -11,7 +11,7 @@ extern int yylineno;
 %token DEL VIRGULE
 %token INTEGER DOUBLE STRING CHAR BOOLEAN
 %token CONSTANTE FONCTION IDENTIFIANT
-%token BEGINPROG ENDPROG IF THEN ENDIF ELIF ENDELIF ELSE ENDELSE FOR BEGINFOR ENDFOR WHILE BEGINWHILE ENDWHILE INPUT OUTPUT INCREMENT DECREMENT FUNCTION_DECLARATION CONSTANT_DECLARATION
+%token BEGINPROG ENDPROG IF THEN ENDIF ELIF ENDELIF ELSE ENDELSE FOR BEGINFOR ENDFOR WHILE BEGINWHILE ENDWHILE INPUT OUTPUT INCREMENT DECREMENT FUNCTION_DECLARATION CONSTANTE_DECLARATION
 %token INTEGER_DECLARATION DOUBLE_DECLARATION CHAR_DECLARATION STRING_DECLARATION BOOLEAN_DECLARATION TAB_DECLARATION STRUCT_DECLARATION
 %left OR
 %left AND
@@ -22,7 +22,18 @@ extern int yylineno;
 %left NOT
 %right POWER
 %left PARO PARF
-
+%type <entier> INTEGER;
+%type <flottant> DOUBLE;
+%type <caractere> CHAR;
+%type <str> STRING;
+%type <booleen> BOOLEAN;
+%union{
+double flottant;
+int entier;
+char caractere[3];
+char str[100];
+char booleen[5];
+}
 %%
 prog :
     | BEGINPROG corp ENDPROG
@@ -31,19 +42,28 @@ corp:
 	| declaration | declaration corp
 ;
 declaration:
-	| declaration_integer | declaration_double | declaration_char | declaration_string
+	| declaration_integer | declaration_double | declaration_char | declaration_string | declaration_boolean | declaration_constante
 ;
 declaration_integer:
-	| INTEGER_DECLARATION IDENTIFIANT AFFECT INTEGER DEL
+	| INTEGER_DECLARATION IDENTIFIANT AFFECT INTEGER{printf("Une valeur entiere = %d\n",$4);} DEL
 ;
 declaration_double:
-	| DOUBLE_DECLARATION IDENTIFIANT AFFECT DOUBLE DEL
+	| DOUBLE_DECLARATION IDENTIFIANT AFFECT DOUBLE{printf("Une valeur double = %g\n",$4);} DEL
 ;
 declaration_string:
-	| STRING_DECLARATION{printf("1");} IDENTIFIANT{printf("2");} AFFECT{printf("3");} STRING{printf("4");} DEL{printf("5");}
+	| STRING_DECLARATION IDENTIFIANT AFFECT STRING{printf("Une chaine de caractere = %s\n",$4);} DEL
 ;
 declaration_char:
-	| CHAR_DECLARATION IDENTIFIANT AFFECT CHAR DEL
+	| CHAR_DECLARATION IDENTIFIANT AFFECT CHAR{printf("Un caractere = %s\n",$4);} DEL
+;
+declaration_boolean:
+	| BOOLEAN_DECLARATION IDENTIFIANT AFFECT BOOLEAN{printf("Un boolean = %s\n",$4);} DEL
+;
+declaration_constante:
+	| CONSTANTE_DECLARATION CONSTANTE AFFECT fix{printf("Une constante = %lf\n",$4);} DEL
+;
+fix:
+INTEGER | DOUBLE
 ;
 %%
 void yyerror(char *s){
@@ -51,13 +71,6 @@ printf("Erreur synthaxique a la ligne : %d\n",yylineno);
 }
 int main()
 {
-  FILE* fichier = NULL;
-  fichier = fopen("test.txt", "r");
-  if (fichier==NULL) {
-    printf("erreur d'ouverture du fichier\n");
-  }
-  yyin = fichier;
   yyparse();
-  fclose(fichier);
   return 0;
 }

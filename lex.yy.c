@@ -908,7 +908,7 @@ YY_RULE_SETUP
 case 9:
 YY_RULE_SETUP
 #line 30 "projet.l"
-{return (CONSTANT_DECLARATION);}
+{return (CONSTANTE_DECLARATION);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
@@ -1148,27 +1148,27 @@ YY_RULE_SETUP
 case 57:
 YY_RULE_SETUP
 #line 78 "projet.l"
-{return(STRING);}
+{sscanf(yytext,"%s",&yylval.str);return(STRING);}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
 #line 79 "projet.l"
-{return(BOOLEAN);} 
+{sscanf(yytext,"%s",&yylval.booleen);return(BOOLEAN);} 
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
 #line 80 "projet.l"
-{yylval=atoi(yytext);return(INTEGER);} 
+{yylval.entier=atoi(yytext);return(INTEGER);} 
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 81 "projet.l"
-{return(DOUBLE);} 
+{sscanf(yytext,"%lf",&yylval.flottant);return(DOUBLE);} 
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
 #line 82 "projet.l"
-{return(CHAR);} 
+{sscanf(yytext,"%s",&yylval.caractere);return(CHAR);} 
 	YY_BREAK
 case 62:
 YY_RULE_SETUP

@@ -27,7 +27,7 @@ ERREUR [^(\n\s\r)]
 "}" {return (ACCF);}
 "[" {return (CROO);}
 "]" {return (CROF);}
-"CONST" {return (CONSTANT_DECLARATION);}
+"CONST" {return (CONSTANTE_DECLARATION);}
 "FUNCTION" {return (FUNCTION_DECLARATION);}
 "BeginProg" {return (BEGINPROG);}
 "EndProg" {return (ENDPROG);}
@@ -75,11 +75,11 @@ ERREUR [^(\n\s\r)]
 "AND" {return(AND);}
 "OR" {return(OR);}
 "NOT" {return(NOT);}
-{string} {return(STRING);}
-{boolean} {return(BOOLEAN);} 
-{integer} {yylval=atoi(yytext);return(INTEGER);} 
-{double} {return(DOUBLE);} 
-{char} {return(CHAR);} 
+{string} {sscanf(yytext,"%s",&yylval.str);return(STRING);}
+{boolean} {sscanf(yytext,"%s",&yylval.booleen);return(BOOLEAN);} 
+{integer} {yylval.entier=atoi(yytext);return(INTEGER);} 
+{double} {sscanf(yytext,"%lf",&yylval.flottant);return(DOUBLE);} 
+{char} {sscanf(yytext,"%s",&yylval.caractere);return(CHAR);} 
 {fonction} {return (FONCTION);}
 {constante} {return(CONSTANTE);}
 {identifiant} {return (IDENTIFIANT);}

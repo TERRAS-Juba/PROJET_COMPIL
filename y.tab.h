@@ -98,7 +98,7 @@ extern int yydebug;
      INCREMENT = 307,
      DECREMENT = 308,
      FUNCTION_DECLARATION = 309,
-     CONSTANT_DECLARATION = 310,
+     CONSTANTE_DECLARATION = 310,
      INTEGER_DECLARATION = 311,
      DOUBLE_DECLARATION = 312,
      CHAR_DECLARATION = 313,
@@ -161,7 +161,7 @@ extern int yydebug;
 #define INCREMENT 307
 #define DECREMENT 308
 #define FUNCTION_DECLARATION 309
-#define CONSTANT_DECLARATION 310
+#define CONSTANTE_DECLARATION 310
 #define INTEGER_DECLARATION 311
 #define DOUBLE_DECLARATION 312
 #define CHAR_DECLARATION 313
@@ -173,7 +173,21 @@ extern int yydebug;
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+/* Line 2058 of yacc.c  */
+#line 30 "projet.y"
+
+double flottant;
+int entier;
+char caractere[3];
+char str[100];
+char booleen[5];
+
+
+/* Line 2058 of yacc.c  */
+#line 190 "y.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
