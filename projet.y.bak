@@ -86,7 +86,7 @@ INTEGER
 |INTEGER DIV INTEGER DEL {printf("%d\n",$1/$3);} | DOUBLE DIV DOUBLE DEL{printf("%lf\n",$1/$3);} | DOUBLE DIV INTEGER DEL{printf("%lf\n",$1/$3);} | INTEGER DIV DOUBLE DEL{printf("%lf\n",$1/$3);} 
 |INTEGER MOD INTEGER DEL {printf("%d\n",$1%$3);} |
 |INTEGER POWER INTEGER DEL {printf("%lf",pow($1,$3));}
-|expa ADD expa {printf("1: %lf",$1+$3);}
+|expa ADD expa {$$=$1+$3;{printf("1: %lf",$$);}}
 ;
 expc:
 INTEGER SUP INTEGER DEL {if($1>$3){printf("TRUE");}else{printf("FALSE");}} |INTEGER SUP DOUBLE DEL {if($1>$3){printf("TRUE");}else{printf("FALSE");}} |DOUBLE SUP INTEGER DEL {if($1>$3){printf("TRUE");}else{printf("FALSE");}} |DOUBLE SUP DOUBLE DEL {if($1>$3){printf("TRUE");}else{printf("FALSE");}} 

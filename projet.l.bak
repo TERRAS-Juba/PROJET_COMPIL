@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "y.tab.h"
+#include "global.h"
 %}
 boolean TRUE|FALSE
 integer (-)?[0-9]*|[0-9]*
