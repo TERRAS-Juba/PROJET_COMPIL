@@ -1,8 +1,6 @@
 BeginProg
-
-INT a=15;
-INT b=20;
-CHAR d='c';
-DOUBLE z=10.254646464;
-STRING str1="compil";
+15 + 20
+15.0 + 30
+15 + 30.0
+15.0 + 30.0
 EndProg
