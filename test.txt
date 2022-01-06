@@ -1,5 +1,8 @@
 BeginProg
 INT a=10;
 INT b=20;
-((a+b*b)>b) AND (a==b);
+INT d=0;
+INT e=15;
+d=a+b*e/a;
+d;
 EndProg

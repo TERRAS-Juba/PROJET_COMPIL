@@ -176,7 +176,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 42 "projet.y"
+#line 43 "projet.y"
 
 double flottant;
 int entier;

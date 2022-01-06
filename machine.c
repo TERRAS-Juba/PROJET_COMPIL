@@ -35,8 +35,20 @@ strcpy(P->type,type);
 strcpy(P->value,value);
 strcpy(P->nom,nom);
 }
-
+struct Tmaillon *RECHERCHE_VALEUR_VARIABLE(struct Tmaillon *tete,char nom[256]){
+Tmaillon *P;
+P=tete;
+while(P!=NULL){
+	if(strcmp(nom,P->nom)==0){
+		return P;
+	}
+    P=SUIVANT(P);
+}
+}
 void AJOUTER_ENTITE(Tmaillon *tete,char value[256],char type[256],char nom[256]){
+Tmaillon *ptr;
+ptr=RECHERCHE_VALEUR_VARIABLE(tete,nom);
+if(ptr==NULL){
 Tmaillon *P,*Q;
 if(strcmp(tete->value,"")==0){
     AFF_VALUES(tete,value,type,nom);
@@ -49,6 +61,9 @@ while(SUIVANT(P)!=NULL){
     P=SUIVANT(P);
 }
 AFF_SUIVANT(P,Q);
+}
+}else{
+AFF_VALUES(ptr,value,type,nom);
 }
 }
 
@@ -64,16 +79,7 @@ while(P!=NULL){
     printf("=================================================================================================================\n");
 }
 }
-struct Tmaillon *RECHERCHE_VALEUR_VARIABLE(struct Tmaillon *tete,char nom[256]){
-Tmaillon *P;
-P=tete;
-while(P!=NULL){
-	if(strcmp(nom,P->nom)==0){
-		return P;
-	}
-    P=SUIVANT(P);
-}
-}
+
 int CONVERT_STRING_INT(char str[256]){
 	return atoi(str);
 }

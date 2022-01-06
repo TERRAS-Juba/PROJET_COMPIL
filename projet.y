@@ -37,6 +37,7 @@ char buffer2[256];
 %type <str> CONSTANTE
 %type <str> expl 
 %type <str> var 
+%type <str> var_declaration 
 %type <flottant> expc  
 %type <flottant> expa 
 %union{
@@ -81,13 +82,15 @@ CONSTANTE_DECLARATION CONSTANTE AFFECT INTEGER DEL {printf("constante entiere\n"
 /* Les expression*/
 /*============================*/
 exp:
-|expa DEL{printf("%f\n",$1);} | expc DEL{printf("%d\n",(int)$1);} | expl DEL{printf("%s\n",$1);}
+|expa DEL{printf("%f\n",$1);} | expc DEL{printf("%d\n",(int)$1);} | expl DEL{printf("%s\n",$1);}| affectation DEL{}
 ;
 /*============================*/
 /* Les variables*/
 /*============================*/
 var:
 |IDENTIFIANT {ptr=RECHERCHE_VALEUR_VARIABLE(tete,$1);if(ptr!=NULL){strcpy($$,ptr->value);}else{printf("Erreur! Undifined varaible '%s' in ligne '%d'",$1,yylineno);}};
+var_declaration:
+|IDENTIFIANT {ptr=RECHERCHE_VALEUR_VARIABLE(tete,$1);if(ptr!=NULL){strcpy($$,ptr->nom);}else{printf("Erreur! Undifined varaible '%s' in ligne '%d'",$1,yylineno);}};
 /*============================*/
 /* Les expression arithmetiques */
 /*============================*/
@@ -100,6 +103,12 @@ expa:INTEGER{$$=$1;}
 |PARO expa DIV expa PARF {$$=$2/$4;}|expa DIV expa {$$=$1/$3;} 
 |PARO expa POWER expa PARF {$$=pow($2,$4);}|expa POWER expa {$$=pow($1,$3);}
 |PARO INTEGER MOD INTEGER PARF {$$=$2%$4;}|INTEGER MOD INTEGER {$$=$1%$3;}
+;
+/*============================*/
+/* L'affectation */
+/*============================*/
+affectation:
+| var_declaration AFFECT expa{strcpy(buffer,"");snprintf(buffer, 256, "%f", $3);AJOUTER_ENTITE(tete,buffer,"double",$1);} | PARO IDENTIFIANT AFFECT expa PARF {strcpy(buffer,"");snprintf(buffer, 256, "%f", $4);AJOUTER_ENTITE(tete,buffer,"double",$2);} 
 ;
 /*==============================*/
 /* Les expression de comparaison */
@@ -187,6 +196,7 @@ int main()
  }else{
  yyparse();
  }
+AFFICHER_TABLE_SYMBOLES(tete);
 fclose(yyin);
   return 0;
 }

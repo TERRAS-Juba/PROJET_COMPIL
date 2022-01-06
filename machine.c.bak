@@ -37,6 +37,9 @@ strcpy(P->nom,nom);
 }
 
 void AJOUTER_ENTITE(Tmaillon *tete,char value[256],char type[256],char nom[256]){
+Tmaillon *ptr;
+ptr=RECHERCHE_VALEUR_VARIABLE(tete,nom);
+if(ptr==NULL){
 Tmaillon *P,*Q;
 if(strcmp(tete->value,"")==0){
     AFF_VALUES(tete,value,type,nom);
@@ -49,6 +52,9 @@ while(SUIVANT(P)!=NULL){
     P=SUIVANT(P);
 }
 AFF_SUIVANT(P,Q);
+}
+}else{
+AFF_VALUES(ptr,value,type,nom);
 }
 }
 
@@ -65,7 +71,6 @@ while(P!=NULL){
 }
 }
 struct Tmaillon *RECHERCHE_VALEUR_VARIABLE(struct Tmaillon *tete,char nom[256]){
-	 printf("\n=================================================================================================================\n");
 Tmaillon *P;
 P=tete;
 while(P!=NULL){
