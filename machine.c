@@ -64,4 +64,21 @@ while(P!=NULL){
     printf("=================================================================================================================\n");
 }
 }
-
+struct Tmaillon *RECHERCHE_VALEUR_VARIABLE(struct Tmaillon *tete,char nom[256]){
+	 printf("\n=================================================================================================================\n");
+Tmaillon *P;
+P=tete;
+while(P!=NULL){
+	if(strcmp(nom,P->nom)==0){
+		return P;
+	}
+    P=SUIVANT(P);
+}
+}
+int CONVERT_STRING_INT(char str[256]){
+	return atoi(str);
+}
+double CONVERT_STRING_DOUBLE(char str[256]){
+	char *eptr;
+	return strtod(str, &eptr);
+}

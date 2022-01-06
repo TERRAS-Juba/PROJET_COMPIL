@@ -75,13 +75,13 @@ ERREUR [^(\n\s\r)]
 "AND" {return(AND);}
 "OR" {return(OR);}
 "NOT" {return(NOT);}
+{char} {sscanf(yytext,"%s",&yylval.caractere);return(CHAR);} 
 {string} {sscanf(yytext,"%s",&yylval.str);return(STRING);}
 {boolean} {sscanf(yytext,"%s",&yylval.booleen);return(BOOLEAN);} 
 {integer} {yylval.entier=atoi(yytext);return(INTEGER);} 
 {double} {sscanf(yytext,"%lf",&yylval.flottant);return(DOUBLE);} 
-{char} {sscanf(yytext,"%s",&yylval.caractere);return(CHAR);} 
 {fonction} {return (FONCTION);}
-{constante} {return(CONSTANTE);}
-{identifiant} {return (IDENTIFIANT);}
+{constante} {sscanf(yytext,"%s",&yylval.str);return(CONSTANTE);}
+{identifiant} {sscanf(yytext,"%s",&yylval.str);return (IDENTIFIANT);}
 {ERREUR} {printf("Erreur lexicale au niveau de \"%s\" , ligne %d.\n",yytext,yylineno);exit(0); }
 %%
