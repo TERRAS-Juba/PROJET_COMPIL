@@ -95,8 +95,8 @@ extern int yydebug;
      ENDWHILE = 304,
      INPUT = 305,
      OUTPUT = 306,
-     INCREMENT = 307,
-     DECREMENT = 308,
+     INC = 307,
+     DEC = 308,
      FUNCTION_DECLARATION = 309,
      CONSTANTE_DECLARATION = 310,
      INTEGER_DECLARATION = 311,
@@ -158,8 +158,8 @@ extern int yydebug;
 #define ENDWHILE 304
 #define INPUT 305
 #define OUTPUT 306
-#define INCREMENT 307
-#define DECREMENT 308
+#define INC 307
+#define DEC 308
 #define FUNCTION_DECLARATION 309
 #define CONSTANTE_DECLARATION 310
 #define INTEGER_DECLARATION 311

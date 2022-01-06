@@ -17,7 +17,7 @@ char buffer2[256];
 %token DEL VIRGULE
 %token INTEGER DOUBLE STRING CHAR BOOLEAN
 %token CONSTANTE FONCTION IDENTIFIANT
-%token BEGINPROG ENDPROG IF THEN ENDIF ELIF ENDELIF ELSE ENDELSE FOR BEGINFOR ENDFOR WHILE BEGINWHILE ENDWHILE INPUT OUTPUT INCREMENT DECREMENT FUNCTION_DECLARATION CONSTANTE_DECLARATION
+%token BEGINPROG ENDPROG IF THEN ENDIF ELIF ENDELIF ELSE ENDELSE FOR BEGINFOR ENDFOR WHILE BEGINWHILE ENDWHILE INPUT OUTPUT INC DEC FUNCTION_DECLARATION CONSTANTE_DECLARATION
 %token INTEGER_DECLARATION DOUBLE_DECLARATION CHAR_DECLARATION STRING_DECLARATION BOOLEAN_DECLARATION TAB_DECLARATION STRUCT_DECLARATION
 %left OR
 %left AND
@@ -52,7 +52,7 @@ prog :
     | BEGINPROG corp ENDPROG
 ;
 corp:
-| corp declaration | corp exp 
+| corp declaration | corp exp | corp if | corp for
 ;
 /*============================*/
 /* Les declarations*/
@@ -82,7 +82,10 @@ CONSTANTE_DECLARATION CONSTANTE AFFECT INTEGER DEL {printf("constante entiere\n"
 /* Les expression*/
 /*============================*/
 exp:
-|expa DEL{printf("%f\n",$1);} | expc DEL{printf("%d\n",(int)$1);} | expl DEL{printf("%s\n",$1);}| affectation DEL{}
+|expa DEL{printf("%f\n",$1);} | expc DEL{printf("%d\n",(int)$1);} | expl DEL{printf("%s\n",$1);}| affectation DEL{} |incrementation | decrementation
+;
+condition:
+expc | expl 
 ;
 /*============================*/
 /* Les variables*/
@@ -182,6 +185,40 @@ else{strcpy($$,"FALSE");}
 if($3==0){strcpy($$,"TRUE");}
 else{strcpy($$,"FALSE");}
 }
+;
+/*==============================*/
+/* Les IF/ELSE */
+/*==============================*/
+if:
+| IF PARO condition PARF THEN corp_if ENDIF| IF PARO condition PARF THEN corp_if ENDIF elif | IF PARO condition PARF THEN corp_if ENDIF else
+;
+elif:
+| ELIF PARO condition PARF THEN corp_if ENDELIF else| ELIF PARO condition PARF THEN corp_if ENDELIF elif else
+;
+else:
+|ELSE corp_if ENDELSE
+;
+corp_if:
+|corp_if exp | corp_if declaration | corp_if if | corp_if for
+;
+/*==============================*/
+/* La boucle pour */
+/*==============================*/
+op_for:
+| "INC"
+| "DEC";
+corp_for:
+| corp_for exp | corp_for declaration |corp_for if | corp_for for;
+for:
+| FOR PARO IDENTIFIANT VIRGULE expa VIRGULE expa VIRGULE expa PARF BEGINFOR corp_for ENDFOR
+/*==============================*/
+/* Incrementation / Decrementation*/
+/*==============================*/
+incrementation:
+|INC PARO IDENTIFIANT PARF DEL{ ptr=RECHERCHE_VALEUR_VARIABLE(tete,$3);if(ptr!=NULL){CONVERT_DOUBLE_STRING(ptr->value,(CONVERT_STRING_DOUBLE(ptr->value)+1));}else{printf("Erreur! Undifined varaible '%s' in ligne '%d'",$3,yylineno);}}
+;
+decrementation:
+|DEC PARO IDENTIFIANT PARF DEL{ ptr=RECHERCHE_VALEUR_VARIABLE(tete,$3);if(ptr!=NULL){CONVERT_DOUBLE_STRING(ptr->value,(CONVERT_STRING_DOUBLE(ptr->value)-1));}else{printf("Erreur! Undifined varaible '%s' in ligne '%d'",$3,yylineno);}}
 ;
 %%
 void yyerror(char *s){

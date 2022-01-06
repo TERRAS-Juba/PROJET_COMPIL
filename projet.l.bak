@@ -27,7 +27,6 @@ ERREUR [^(\n\s\r)]
 "}" {return (ACCF);}
 "[" {return (CROO);}
 "]" {return (CROF);}
-"CONST" {return (CONSTANTE_DECLARATION);}
 "FUNCTION" {return (FUNCTION_DECLARATION);}
 "BeginProg" {return (BEGINPROG);}
 "EndProg" {return (ENDPROG);}
@@ -35,6 +34,7 @@ ERREUR [^(\n\s\r)]
 "DOUBLE" {return (DOUBLE_DECLARATION);}
 "CHAR" {return (CHAR_DECLARATION);}
 "STRING" {return (STRING_DECLARATION);}
+"CONST" {return (CONSTANTE_DECLARATION);}
 "BOOLEAN" {return (BOOLEAN_DECLARATION);}
 "TAB" {return (TAB_DECLARATION);}
 "STRUCT" {return (STRUCT_DECLARATION);}

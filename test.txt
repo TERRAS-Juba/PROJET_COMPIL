@@ -1,8 +1,7 @@
 BeginProg
-INT a=10;
-INT b=20;
-INT d=0;
-INT e=15;
-d=a+b*e/a;
-d;
+IF(15>20) then
+FOR(a,0,100,- 2) 
+BeginFOR 
+EndFOR
+EndIF
 EndProg

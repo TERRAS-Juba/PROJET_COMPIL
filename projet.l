@@ -54,8 +54,8 @@ ERREUR [^(\n\s\r)]
 "EndWHILE" {return (ENDWHILE);}
 "INPUT" {return (INPUT);}
 "OUTPUT" {return (OUTPUT);}
-"INCREMENT" {return (INCREMENT);}
-"DECREMENT" {return (DECREMENT);}
+"INC" {return (INC);}
+"DEC" {return (DEC);}
 ";" {return(DEL);}
 {COMMENTAIRE_LIGNE} {}
 {COMMENTAIRE_PLUSIEURSC_LIGNE} {}
