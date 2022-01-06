@@ -176,18 +176,17 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 41 "projet.y"
+#line 42 "projet.y"
 
 double flottant;
 int entier;
 char caractere[3];
-char str[100];
+char str[256];
 char booleen[5];
-char id[100];
 
 
 /* Line 2058 of yacc.c  */
-#line 191 "y.tab.h"
+#line 190 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -6,7 +6,6 @@
 int yylex();
 void yyerror(char *s);
 extern FILE *yyin;
-extern FILE *yyout;
 extern int yylineno;
 typedef struct Tmaillon Tmaillon;
 Tmaillon *tete,*ptr;
@@ -37,13 +36,14 @@ char buffer2[256];
 %type <str> IDENTIFIANT;
 %type <str> CONSTANTE
 %type <str> expl 
+%type <str> var 
 %type <flottant> expc  
 %type <flottant> expa 
 %union{
 double flottant;
 int entier;
 char caractere[3];
-char str[100];
+char str[256];
 char booleen[5];
 }
 %%
@@ -51,8 +51,11 @@ prog :
     | BEGINPROG corp ENDPROG
 ;
 corp:
-| corp declaration | corp exp
+| corp declaration | corp exp 
 ;
+/*============================*/
+/* Les declarations*/
+/*============================*/
 declaration:
 declaration_integer | declaration_double | declaration_char | declaration_string | declaration_boolean | declaration_constante
 ;
@@ -74,41 +77,101 @@ BOOLEAN_DECLARATION IDENTIFIANT AFFECT BOOLEAN DEL {printf("boolean\n");AJOUTER_
 declaration_constante:
 CONSTANTE_DECLARATION CONSTANTE AFFECT INTEGER DEL {printf("constante entiere\n");strcpy(buffer,"");itoa($4,buffer,10);AJOUTER_ENTITE(tete,buffer,"constante",$2);}|  CONSTANTE_DECLARATION CONSTANTE AFFECT DOUBLE DEL{printf("constante double\n");strcpy(buffer,"");snprintf(buffer, 256, "%f", $4);AJOUTER_ENTITE(tete,buffer,"constante",$2);}
 ;
+/*============================*/
+/* Les expression*/
+/*============================*/
 exp:
-|expa DEL{printf("%lf\n",$1);} | expc DEL{printf("%d\n",(int)$1);} | expl DEL{printf("%s\n",$1);}
+|expa DEL{printf("%f\n",$1);} | expc DEL{printf("%d\n",(int)$1);} | expl DEL{printf("%s\n",$1);}
 ;
+/*============================*/
+/* Les variables*/
+/*============================*/
+var:
+|IDENTIFIANT {ptr=RECHERCHE_VALEUR_VARIABLE(tete,$1);if(ptr!=NULL){strcpy($$,ptr->value);}else{printf("Erreur! Undifined varaible '%s' in ligne '%d'",$1,yylineno);}};
+/*============================*/
+/* Les expression arithmetiques */
+/*============================*/
 expa:INTEGER{$$=$1;}
 |DOUBLE{$$=$1;}
-|expa ADD expa {$$=$1+$3;} 
-|expa SUB expa {$$=$1-$3;} 
-|expa MUL expa {$$=$1*$3;} 
-|expa DIV expa {$$=$1/$3;} 
-|expa POWER expa {$$=pow($1,$3);}
-|INTEGER MOD INTEGER {$$=$1%$3;}
+|var{$$=CONVERT_STRING_DOUBLE($1);}
+|PARO expa ADD expa PARF {$$=$2+$4;}|expa ADD expa{$$=$1+$3;} 
+|PARO expa SUB expa PARF {$$=$2-$4;}|expa SUB expa {$$=$1-$3;}
+|PARO expa MUL expa PARF {$$=$2*$4;}|expa MUL expa {$$=$1*$3;} 
+|PARO expa DIV expa PARF {$$=$2/$4;}|expa DIV expa {$$=$1/$3;} 
+|PARO expa POWER expa PARF {$$=pow($2,$4);}|expa POWER expa {$$=pow($1,$3);}
+|PARO INTEGER MOD INTEGER PARF {$$=$2%$4;}|INTEGER MOD INTEGER {$$=$1%$3;}
 ;
+/*==============================*/
+/* Les expression de comparaison */
+/*==============================*/
 expc:
 |INTEGER {$$=$1;}
 |DOUBLE {$$=$1;}
-|expc SUP expc {if($1>$3){$$=1;}else{$$=0;}} 
-|expc INF expc {if($1<$3){$$=1;}else{$$=0;}} 
-|expc SUPE expc{if($1>=$3){$$=1;}else{$$=0;}} 
-|expc INFE expc{if($1<=$3){$$=1;}else{$$=0;}} 
-|expc EQUAL expc {if($1==$3){$$=1;}else{$$=0;}} 
-|expc DIFF expc {if($1!=$3){$$=1;}else{$$=0;}} 
+| PARO expc SUP expc PARF {if($2>$4){$$=1;}else{$$=0;}} |expc SUP expc {if($1>$3){$$=1;}else{$$=0;}} 
+| PARO expc INF expc PARF {if($2<$4){$$=1;}else{$$=0;}} |expc INF expc {if($1<$3){$$=1;}else{$$=0;}} 
+| PARO expc SUPE expc PARF {if($2>=$4){$$=1;}else{$$=0;}} |expc SUPE expc{if($1>=$3){$$=1;}else{$$=0;}} 
+| PARO expc INFE expc PARF {if($2<=$4){$$=1;}else{$$=0;}}|expc INFE expc{if($1<=$3){$$=1;}else{$$=0;}} 
+| PARO expc EQUAL expc PARF {if($2==$4){$$=1;}else{$$=0;}}|expc EQUAL expc {if($1==$3){$$=1;}else{$$=0;}} 
+| PARO expc DIFF expc PARF {if($2!=$4){$$=1;}else{$$=0;}}|expc DIFF expc {if($1!=$3){$$=1;}else{$$=0;}} 
+| PARO expa SUP expa PARF {if($2>$4){$$=1;}else{$$=0;}}|expa SUP expa {if($1>$3){$$=1;}else{$$=0;}}
+| PARO expa INF expa PARF {if($2<$4){$$=1;}else{$$=0;}}|expa INF expa {if($1<$3){$$=1;}else{$$=0;}} 
+| PARO expa SUPE expa PARF {if($2>=$4){$$=1;}else{$$=0;}}|expa SUPE expa {if($1>=$3){$$=1;}else{$$=0;}} 
+| PARO expa INFE expa PARF {if($2<=$4){$$=1;}else{$$=0;}}|expa INFE expa {if($1<=$3){$$=1;}else{$$=0;}} 
+| PARO expa EQUAL expa PARF {if($2==$4){$$=1;}else{$$=0;}}|expa EQUAL expa {if($1==$3){$$=1;}else{$$=0;}} 
+| PARO expa DIFF expa PARF {if($2!=$4){$$=1;}else{$$=0;}}|expa DIFF expa {if($1!=$3){$$=1;}else{$$=0;}} 
 ;
+/*============================*/
+/* Les expression logiques */
+/*============================*/
 expl:
 |BOOLEAN {strcpy($$,$1);}
 |expl AND expl{
 if(strcmp($1,"TRUE")==0 && strcmp($3,"TRUE")==0){strcpy($$,"TRUE");}
 else{strcpy($$,"FALSE");}
-}  
+}
+|PARO expl AND expl PARF{
+if(strcmp($2,"TRUE")==0 && strcmp($4,"TRUE")==0){strcpy($$,"TRUE");}
+else{strcpy($$,"FALSE");}
+} 
 |expl OR expl{
 if(strcmp($1,"FALSE")==0 && strcmp($3,"FALSE")==0){strcpy($$,"FALSE");}
+else{ strcpy($$,"TRUE");}
+} 
+|PARO expl OR expl PARF{
+if(strcmp($2,"FALSE")==0 && strcmp($4,"FALSE")==0){strcpy($$,"FALSE");}
 else{ strcpy($$,"TRUE");}
 } 
 |NOT expl{
 if(strcmp($2,"FALSE")==0){strcpy($$,"TRUE");}
 else{ strcpy($$,"FALSE");}
+}
+|PARO NOT expl PARF{
+if(strcmp($3,"FALSE")==0){strcpy($$,"TRUE");}
+else{ strcpy($$,"FALSE");}
+}
+|expc AND expc{
+if($1==1 && $3==1){strcpy($$,"TRUE");}
+else{strcpy($$,"FALSE");}
+}
+|PARO expc AND expc PARF{
+if($2==1 && $4==1){strcpy($$,"TRUE");}
+else{strcpy($$,"FALSE");}
+} 
+|expc OR expc{
+if($1==0 && $3==0){strcpy($$,"FALSE");}
+else{strcpy($$,"TRUE");}
+}
+|PARO expc OR expc PARF{
+if($2==0 && $4==0){strcpy($$,"FALSE");}
+else{strcpy($$,"TRUE");}
+}
+|NOT expc{
+if($2==0){strcpy($$,"TRUE");}
+else{strcpy($$,"FALSE");}
+}
+|NOT PARO expc PARF{
+if($3==0){strcpy($$,"TRUE");}
+else{strcpy($$,"FALSE");}
 }
 ;
 %%
@@ -124,9 +187,6 @@ int main()
  }else{
  yyparse();
  }
-AFFICHER_TABLE_SYMBOLES(tete);
-ptr=RECHERCHE_VALEUR_VARIABLE(tete,"c_pie");
-printf("%s",ptr->nom);
 fclose(yyin);
   return 0;
 }

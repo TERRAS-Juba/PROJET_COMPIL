@@ -65,6 +65,7 @@ while(P!=NULL){
 }
 }
 struct Tmaillon *RECHERCHE_VALEUR_VARIABLE(struct Tmaillon *tete,char nom[256]){
+	 printf("\n=================================================================================================================\n");
 Tmaillon *P;
 P=tete;
 while(P!=NULL){

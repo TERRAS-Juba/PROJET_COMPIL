@@ -293,11 +293,11 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 #define YY_END_OF_BUFFER 67
 static yyconst short int yy_acclist[322] =
     {   0,
-       59,   64,   59,   64,   67,   65,   66,    1,   66,   66,
+       60,   64,   60,   64,   67,   65,   66,    1,   66,   66,
         1,   65,   66,   65,   66,   47,   65,   66,   65,   66,
         3,   66,    4,   66,   43,   65,   66,   41,   65,   66,
-        2,   65,   66,   42,   59,   65,   66,   44,   65,   66,
-       59,   60,   64,   65,   66,   38,   65,   66,   48,   65,
+        2,   65,   66,   42,   60,   65,   66,   44,   65,   66,
+       60,   61,   64,   65,   66,   38,   65,   66,   48,   65,
        66,   46,   65,   66,   49,   65,   66,   64,   65,   66,
        64,   65,   66,   64,   65,   66,   64,   65,   66,   64,
        65,   66,   64,   65,   66,   64,   65,   66,   64,   65,
@@ -306,28 +306,28 @@ static yyconst short int yy_acclist[322] =
 
        65,   66,   45,   65,   66,   64,   65,   66,   64,   65,
        66,   64,   65,   66,   64,   66,   64,   65,   66,    5,
-       65,   66,    6,   65,   66,   57,   39,   59,   60,   59,
-       60,   64,   64,   50,   53,   52,   51,   64,   64,   64,
+       65,   66,    6,   65,   66,   58,   39,   60,   61,   60,
+       61,   64,   64,   50,   53,   52,   51,   64,   64,   64,
        64,   64,   64,   64,   64,   64,   64,   64,   64,   20,
        64,   64,   64,   55,   64,   64,   64,   64,   64,   64,
        62,   63,   62,   63,   64,   63,   63,   64,   62,   62,
-       64,   64,   61,   39,   60,   54,   64,   64,   64,   64,
+       64,   64,   57,   39,   61,   54,   64,   64,   64,   64,
        64,   64,   64,   64,   64,   64,   64,   27,   64,   64,
-       64,   64,   13,   64,   56,   64,   64,   64,   18,   64,
+       64,   64,   12,   64,   56,   64,   64,   64,   18,   64,
 
        64,   64,   62,   63,   62,   63,   64,   63,   63,   64,
-       62,   62,   64,   64,   40,   60,   64,   64,   15,   64,
+       62,   62,   64,   64,   40,   61,   64,   64,   14,   64,
        64,   64,   64,   23,   64,   25,   64,   64,   64,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   58,
-       64,   64,   21,   64,   64,   64,    9,   64,   64,   64,
+       64,   64,   64,   64,   64,   64,   64,   64,   64,   59,
+       64,   64,   21,   64,   64,   64,   16,   64,   64,   64,
        64,   64,   22,   64,   64,   64,   64,   64,   34,   64,
        64,   64,   64,   31,   64,   64,   64,   64,   64,   64,
-       14,   64,   64,   64,   30,   64,   64,   64,   64,   64,
-       35,   64,   16,   64,   19,   64,   17,   64,   64,   64,
-       64,   64,   24,   64,   26,   28,   64,   12,   64,   64,
+       13,   64,   64,   64,   30,   64,   64,   64,   64,   64,
+       35,   64,   15,   64,   19,   64,   17,   64,   64,   64,
+       64,   64,   24,   64,   26,   28,   64,   11,   64,   64,
 
-       64,   64,   29,   64,   64,   64,   64,   33,   64,   10,
-       64,   64,   11,   64,   64,   37,   64,   36,   64,   32,
+       64,   64,   29,   64,   64,   64,   64,   33,   64,    9,
+       64,   64,   10,   64,   64,   37,   64,   36,   64,   32,
        64
     } ;
 
@@ -908,42 +908,42 @@ YY_RULE_SETUP
 case 9:
 YY_RULE_SETUP
 #line 30 "projet.l"
-{return (CONSTANTE_DECLARATION);}
+{return (FUNCTION_DECLARATION);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 31 "projet.l"
-{return (FUNCTION_DECLARATION);}
+{return (BEGINPROG);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 32 "projet.l"
-{return (BEGINPROG);}
+{return (ENDPROG);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 33 "projet.l"
-{return (ENDPROG);}
+{return (INTEGER_DECLARATION);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 34 "projet.l"
-{return (INTEGER_DECLARATION);}
+{return (DOUBLE_DECLARATION);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 35 "projet.l"
-{return (DOUBLE_DECLARATION);}
+{return (CHAR_DECLARATION);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 36 "projet.l"
-{return (CHAR_DECLARATION);}
+{return (STRING_DECLARATION);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 37 "projet.l"
-{return (STRING_DECLARATION);}
+{return (CONSTANTE_DECLARATION);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
@@ -1148,27 +1148,27 @@ YY_RULE_SETUP
 case 57:
 YY_RULE_SETUP
 #line 78 "projet.l"
-{sscanf(yytext,"%s",&yylval.str);return(STRING);}
+{sscanf(yytext,"%s",&yylval.caractere);return(CHAR);} 
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
 #line 79 "projet.l"
-{sscanf(yytext,"%s",&yylval.booleen);return(BOOLEAN);} 
+{sscanf(yytext,"%s",&yylval.str);return(STRING);}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
 #line 80 "projet.l"
-{yylval.entier=atoi(yytext);return(INTEGER);} 
+{sscanf(yytext,"%s",&yylval.booleen);return(BOOLEAN);} 
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 81 "projet.l"
-{sscanf(yytext,"%lf",&yylval.flottant);return(DOUBLE);} 
+{yylval.entier=atoi(yytext);return(INTEGER);} 
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
 #line 82 "projet.l"
-{sscanf(yytext,"%s",&yylval.caractere);return(CHAR);} 
+{sscanf(yytext,"%lf",&yylval.flottant);return(DOUBLE);} 
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
@@ -1178,12 +1178,12 @@ YY_RULE_SETUP
 case 63:
 YY_RULE_SETUP
 #line 84 "projet.l"
-{return(CONSTANTE);}
+{sscanf(yytext,"%s",&yylval.str);return(CONSTANTE);}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
 #line 85 "projet.l"
-{return (IDENTIFIANT);}
+{sscanf(yytext,"%s",&yylval.str);return (IDENTIFIANT);}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP

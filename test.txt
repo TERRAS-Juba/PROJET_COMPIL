@@ -1,13 +1,5 @@
 BeginProg
-DOUBLE a=152.0;
-INT A=10;
-INT B=10;
-INT C=10;
-STRING str="Juba";
-15*12;
-TRUE AND NOT TRUE;
-CHAR var='a';
-CONST c_pie=3.14;
-CONST c_p=5;
-15<20;
+INT a=10;
+INT b=20;
+((a+b*b)>b) AND (a==b);
 EndProg
