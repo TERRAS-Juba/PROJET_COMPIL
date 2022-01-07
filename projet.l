@@ -13,12 +13,13 @@ string  ["][^"]*["]
 char ['][a-zA-Z][']
 COMMENTAIRE_LIGNE [*][*]([a-zA-Z]|[ ]|[*]|[0-9])*
 COMMENTAIRE_PLUSIEURSC_LIGNE [*][-]([^-]|[-])*[-][*]
-constante [c_].([a-zA-Z]|[0-9])*
-fonction [f_].(([a-zA-Z]|[0-9])*)
+constante [c][_].([a-zA-Z]|[0-9])*
+fonction [f][_].(([a-zA-Z]|[0-9])*)
 identifiant ([a-zA-Z]|[0-9]|[_])*
 ERREUR [^(\n\s\r)]
 
 %%
+[ \t] {}
 [ \n] {}
 "," {return (VIRGULE);}
 "(" {return (PARO);}
@@ -80,7 +81,7 @@ ERREUR [^(\n\s\r)]
 {boolean} {sscanf(yytext,"%s",&yylval.booleen);return(BOOLEAN);} 
 {integer} {yylval.entier=atoi(yytext);return(INTEGER);} 
 {double} {sscanf(yytext,"%lf",&yylval.flottant);return(DOUBLE);} 
-{fonction} {return (FONCTION);}
+{fonction} {return (FUNCTION);}
 {constante} {sscanf(yytext,"%s",&yylval.str);return(CONSTANTE);}
 {identifiant} {sscanf(yytext,"%s",&yylval.str);return (IDENTIFIANT);}
 {ERREUR} {printf("Erreur lexicale au niveau de \"%s\" , ligne %d.\n",yytext,yylineno);exit(0); }

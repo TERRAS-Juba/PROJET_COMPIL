@@ -1,7 +1,5 @@
 BeginProg
-IF(15>20) then
-FOR(a,0,100,- 2) 
-BeginFOR 
-EndFOR
-EndIF
+STRING a="compil";
+a=INPUT("ENTREZ_VALUE");
+a;
 EndProg

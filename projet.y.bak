@@ -16,7 +16,7 @@ char buffer2[256];
 %token PARO PARF CROO CROF ACCO ACCF 
 %token DEL VIRGULE
 %token INTEGER DOUBLE STRING CHAR BOOLEAN
-%token CONSTANTE FONCTION IDENTIFIANT
+%token CONSTANTE FUNCTION IDENTIFIANT
 %token BEGINPROG ENDPROG IF THEN ENDIF ELIF ENDELIF ELSE ENDELSE FOR BEGINFOR ENDFOR WHILE BEGINWHILE ENDWHILE INPUT OUTPUT INC DEC FUNCTION_DECLARATION CONSTANTE_DECLARATION
 %token INTEGER_DECLARATION DOUBLE_DECLARATION CHAR_DECLARATION STRING_DECLARATION BOOLEAN_DECLARATION TAB_DECLARATION STRUCT_DECLARATION
 %left OR
@@ -52,7 +52,7 @@ prog :
     | BEGINPROG corp ENDPROG
 ;
 corp:
-| corp declaration | corp exp | corp if | corp for
+| corp declaration | corp exp | corp if | corp for | corp structure | corp tableau | corp fonction | corp while | corp input
 ;
 /*============================*/
 /* Les declarations*/
@@ -199,18 +199,47 @@ else:
 |ELSE corp_if ENDELSE
 ;
 corp_if:
-|corp_if exp | corp_if declaration | corp_if if | corp_if for
+|corp_if exp | corp_if declaration | corp_if if | corp_if for | corp_if tableau | corp_if while
 ;
 /*==============================*/
 /* La boucle pour */
 /*==============================*/
-op_for:
-| "INC"
-| "DEC";
 corp_for:
-| corp_for exp | corp_for declaration |corp_for if | corp_for for;
+| corp_for exp | corp_for declaration |corp_for if | corp_for for | corp_for tableau | corp_for while
+;
 for:
-| FOR PARO IDENTIFIANT VIRGULE expa VIRGULE expa VIRGULE expa VIRGULE expa PARF BEGINFOR corp_for ENDFOR
+| FOR PARO IDENTIFIANT VIRGULE expa VIRGULE expa VIRGULE expa PARF BEGINFOR corp_for ENDFOR
+;
+/*==============================*/
+/* La boucle while */
+/*==============================*/
+corp_while:
+| corp_while exp | corp_while declaration |corp_while if | corp_while for | corp_while tableau | corp_while while
+;
+while:
+| WHILE PARO condition PARF BEGINWHILE corp_while ENDWHILE
+;
+/*==============================*/
+/* Structure*/
+/*==============================*/
+corp_structure:
+| corp_structure declaration
+;
+structure:
+| STRUCT_DECLARATION IDENTIFIANT AFFECT ACCO corp_structure ACCF DEL
+;
+corp_tableau:
+|corp_tableau INTEGER VIRGULE
+;
+tableau:
+| TAB_DECLARATION IDENTIFIANT AFFECT CROO corp_tableau CROF DEL
+;
+corp_fonction: 
+| corp_fonction exp | corp_fonction if | corp_fonction for | corp_fonction declaration | corp_fonction tableau
+;
+fonction:
+FUNCTION_DECLARATION FUNCTION PARO var PARF ACCO corp_fonction ACCF DEL
+;
 /*==============================*/
 /* Incrementation / Decrementation*/
 /*==============================*/
@@ -219,6 +248,12 @@ incrementation:
 ;
 decrementation:
 |DEC PARO IDENTIFIANT PARF DEL{ ptr=RECHERCHE_VALEUR_VARIABLE(tete,$3);if(ptr!=NULL){CONVERT_DOUBLE_STRING(ptr->value,(CONVERT_STRING_DOUBLE(ptr->value)-1));}else{printf("Erreur! Undifined varaible '%s' in ligne '%d'",$3,yylineno);}}
+;
+/*==============================*/
+/* Input*/
+/*==============================*/
+input:
+var AFFECT INPUT PARO STRING PARF DEL {printf("%s\n",$5);scanf("%s",buffer);ptr=RECHERCHE_VALEUR_VARIABLE(tete,$1);if(ptr!=NULL){strcpy(ptr->value,buffer);}else{printf("Erreur! Undifined varaible '%s' in ligne '%d'",$1,yylineno);}}
 ;
 %%
 void yyerror(char *s){

@@ -76,7 +76,7 @@ extern int yydebug;
      CHAR = 285,
      BOOLEAN = 286,
      CONSTANTE = 287,
-     FONCTION = 288,
+     FUNCTION = 288,
      IDENTIFIANT = 289,
      BEGINPROG = 290,
      ENDPROG = 291,
@@ -139,7 +139,7 @@ extern int yydebug;
 #define CHAR 285
 #define BOOLEAN 286
 #define CONSTANTE 287
-#define FONCTION 288
+#define FUNCTION 288
 #define IDENTIFIANT 289
 #define BEGINPROG 290
 #define ENDPROG 291
